@@ -1,10 +1,11 @@
+import { Container } from "@/components/Container";
 import { PostsList } from "@/components/PostsList";
 import { SpinLoader } from "@/components/SpinLoader";
 import { Suspense } from "react";
 
 export default async function HomePage() {
     return (
-        <div>
+        <Container>
             <header>
                 <h1 className="text-6xl font-bold py-8 text-center">aqui é a header</h1>
             </header>
@@ -13,8 +14,6 @@ export default async function HomePage() {
             </Suspense>
             <footer>
                 <p className="text-6xl font-bold py-8 text-center">footer</p>
-            </footer>
-        </div>
-
+            </footer></Container>
     );
 }
