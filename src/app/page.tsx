@@ -1,9 +1,9 @@
-import { Header } from "@/components/Header";
+import { SpinLoader } from "@/components/SpinLoader";
 
 export default function HomePage() {
     return (
         <div>
-            <Header/>
+            <SpinLoader className="min-h-40"/>
         </div>
 
     );
