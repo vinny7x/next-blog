@@ -1,11 +1,38 @@
 import { postRepository } from "@/repositories/post"
+import { PostCoverImage } from "../PostCoverImage";
+import clsx from "clsx";
+import { PostHeading } from "../PostHeading";
 
 export async function PostsList() {
     const posts = await postRepository.findAll();
-    
+
     return (
-        <div>
-            {posts.map(post => <p key={post.id}>{post.title}</p>)}
-        </div>
+        <section className={clsx(
+            'grid grid-cols-1 gap-8',
+            'sm:grid-cols-2',
+            'lg:grid-cols-3',
+        )}>
+            {posts.map(post =>
+                <div key={post.id} className="flex flex-col gap-4 group">
+                    <PostCoverImage
+                        src={post.coverImageUrl}
+                        href={`/post/${post.slug}`}
+                        alt={post.title}
+                    />
+                    <div className={clsx(
+                        'flex flex-col gap-4',
+                        'sm:justify-center'
+                    )}>
+                        <time className={clsx(
+                            'text-slate-600 text-sm/tight block'
+                        )}
+                            dateTime={post.createdAt}>
+                            {post.createdAt}
+                        </time>
+                        <PostHeading url={`/post/${post.slug}`} as="h2">{post.title}</PostHeading>
+                        <p>{post.excerpt}</p>
+                    </div>
+                </div>)}
+        </section>
     )
 }

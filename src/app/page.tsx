@@ -20,13 +20,25 @@ export default async function HomePage() {
                 'group'
             )}>
                 <PostCoverImage src="/images/bryen_4.png" href='#' alt='Titulo do post' />
-                <div className={clsx(
-                    'flex flex-col gap-4',
-                    'sm:justify-center'
-                )}>
-                    <time className={clsx('text-slate-600 text-sm/tight block')} dateTime="2025-04-20">20/04/2025 10:00</time>
-                    <PostHeading url="#" as="h1">oi</PostHeading>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam unde reiciendis, itaque, laudantium saepe voluptatum corporis id quia repellat eveniet dignissimos quas modi commodi repellendus. Soluta provident mollitia omnis unde.</div>
+                <div className='flex flex-col gap-4 sm:justify-center'>
+          <time
+            className='text-slate-600 block text-sm/tight'
+            dateTime='2025-04-20'
+          >
+            20/04/2025 10:00
+          </time>
+
+          <PostHeading as='h1' url='#'>
+            Rerum, vel ex? Impedit ullam harum blanditiis
+          </PostHeading>
+
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. In velit
+            dolorem est dolor porro, doloribus neque, quidem mollitia
+            doloremque, ad perspiciatis fugiat. Rerum, vel ex? Impedit ullam
+            harum blanditiis mollitia?
+          </p>
+        </div>
             </section>
 
             <Suspense fallback={<SpinLoader />}>
