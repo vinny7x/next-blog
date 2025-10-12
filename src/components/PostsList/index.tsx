@@ -1,12 +1,10 @@
 import { postRepository } from "@/repositories/post"
 import { PostCoverImage } from "../PostCoverImage";
 import clsx from "clsx";
-import { PostHeading } from "../PostHeading";
-import { formatDateTime, formatRelativeDate } from "@/utils/format-datetime";
 import { PostSummary } from "../PostSummary";
 
 export async function PostsList() {
-    const posts = await postRepository.findAll();
+    const posts = await postRepository.findAllPublic();
 
     return (
         <section className={clsx(
