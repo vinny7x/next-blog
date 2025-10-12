@@ -21,24 +21,24 @@ export default async function HomePage() {
             )}>
                 <PostCoverImage src="/images/bryen_4.png" href='#' alt='Titulo do post' />
                 <div className='flex flex-col gap-4 sm:justify-center'>
-          <time
-            className='text-slate-600 block text-sm/tight'
-            dateTime='2025-04-20'
-          >
-            20/04/2025 10:00
-          </time>
+                    <time
+                        className='text-slate-600 block text-sm/tight'
+                        dateTime='2025-04-20'
+                    >
+                        20/04/2025 10:00
+                    </time>
 
-          <PostHeading as='h1' url='#'>
-            Rerum, vel ex? Impedit ullam harum blanditiis
-          </PostHeading>
+                    <PostHeading as='h1' url='#'>
+                        Rerum, vel ex? Impedit ullam harum blanditiis
+                    </PostHeading>
 
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. In velit
-            dolorem est dolor porro, doloribus neque, quidem mollitia
-            doloremque, ad perspiciatis fugiat. Rerum, vel ex? Impedit ullam
-            harum blanditiis mollitia?
-          </p>
-        </div>
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. In velit
+                        dolorem est dolor porro, doloribus neque, quidem mollitia
+                        doloremque, ad perspiciatis fugiat. Rerum, vel ex? Impedit ullam
+                        harum blanditiis mollitia?
+                    </p>
+                </div>
             </section>
 
             <Suspense fallback={<SpinLoader />}>

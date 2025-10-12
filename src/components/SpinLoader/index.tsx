@@ -4,7 +4,7 @@ type SpinLoaderProps = {
     className?: string
 }
 
-export function SpinLoader({className = ""}:SpinLoaderProps) {
+export function SpinLoader({ className = "" }: SpinLoaderProps) {
     return (
         <div className={clsx(
             'flex',
