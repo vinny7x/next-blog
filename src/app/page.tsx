@@ -1,5 +1,5 @@
 import { Container } from "@/components/Container";
-import { FeaturedPost } from "@/components/FeaturedPosts";
+import { FeaturedPost } from "@/components/FeaturedPost";
 import { Header } from "@/components/Header";
 import { PostsList } from "@/components/PostsList";
 import { SpinLoader } from "@/components/SpinLoader";
