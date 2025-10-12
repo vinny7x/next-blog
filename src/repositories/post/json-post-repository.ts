@@ -30,7 +30,6 @@ export class JsonPostRepository implements PostRepository {
 
     async findAllPublic(): Promise<PostModel[]> {
         await this.simulateWait();
-
         const posts = await this.readFromDisk();
         return posts.filter(post => post.published);
     }

@@ -1,11 +1,13 @@
 import clsx from "clsx";
 import { PostCoverImage } from "../PostCoverImage";
 import { PostSummary } from "../PostSummary";
+import { findAllPublicPosts } from "@/lib/post/queries";
 
-export function FeaturedPost() {
-    const slug = 'qualquercoisa'
-    const postLink = `/post/${slug}`
-
+export async function FeaturedPost() {
+    const posts = await findAllPublicPosts();
+    const featuredPost = posts[0];
+    
+    const postLink = `/post/${featuredPost.slug}`
     return (
         <section className={clsx(
             'mb-16 gap-8',
@@ -13,11 +15,11 @@ export function FeaturedPost() {
             'md:grid-cols-2',
             'group'
         )}>
-            <PostCoverImage src="/images/bryen_4.png" href={postLink} alt='Titulo do post' />
+            <PostCoverImage src={featuredPost.coverImageUrl} href={postLink} alt='Titulo do post' />
             <PostSummary
-                createdAt={"2025-04-07T00:24:38.616Z"}
-                excerpt={"Em vez de configurar tudo manualmente, basta criar um arquivo com o nome certo e o Next.js entende que aquilo representa uma página."}
-                title={"Dicas para manter a saúde mental em dia"}
+                createdAt={featuredPost.createdAt}
+                excerpt={featuredPost.excerpt}
+                title={featuredPost.title}
                 postLink={postLink}
                 postHeading="h1" />
         </section>
