@@ -12,11 +12,13 @@ export async function PostsList() {
             'sm:grid-cols-2',
             'lg:grid-cols-3',
         )}>
-            {posts.map(post =>
+            {posts.map(post => {
+                const postLink = `/post/${post.slug}`
+                return (
                 <div key={post.id} className="flex flex-col gap-4 group">
                     <PostCoverImage
                         src={post.coverImageUrl}
-                        href={`/post/${post.slug}`}
+                        href={postLink}
                         alt={post.title}
                     />
                     <div className={clsx(
@@ -29,10 +31,10 @@ export async function PostsList() {
                             dateTime={post.createdAt}>
                             {post.createdAt}
                         </time>
-                        <PostHeading url={`/post/${post.slug}`} as="h2">{post.title}</PostHeading>
+                        <PostHeading url={postLink} as="h2">{post.title}</PostHeading>
                         <p>{post.excerpt}</p>
                     </div>
-                </div>)}
+                </div>)})}
         </section>
     )
 }
