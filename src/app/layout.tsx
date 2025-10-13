@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Container } from "@/components/Container";
 import { Header } from "@/components/Header";
-import clsx from "clsx";
+import { Footer } from "@/components/Footer";
 
 type RootLayoutProps = {
     children: React.ReactNode
@@ -23,12 +23,7 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
                 <Container>
                     <Header />
                     {children}
-                    <footer>
-                        <p className={clsx(
-                            'text-6xl font-bold text-center',
-                            'py-8'
-                        )}>footer</p>
-                    </footer>
+                    <Footer />
                 </Container>
             </body>
         </html>
