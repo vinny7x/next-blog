@@ -6,7 +6,7 @@ import { findAllPublicPosts } from "@/lib/post/queries";
 export async function FeaturedPost() {
     const posts = await findAllPublicPosts();
     const featuredPost = posts[0];
-    
+
     const postLink = `/post/${featuredPost.slug}`
     return (
         <section className={clsx(
@@ -15,7 +15,7 @@ export async function FeaturedPost() {
             'md:grid-cols-2',
             'group'
         )}>
-            <PostCoverImage src={featuredPost.coverImageUrl} href={postLink} alt='Titulo do post' />
+            <PostCoverImage src={featuredPost.coverImageUrl} href={postLink} alt='Titulo do post' priority={true}/>
             <PostSummary
                 createdAt={featuredPost.createdAt}
                 excerpt={featuredPost.excerpt}

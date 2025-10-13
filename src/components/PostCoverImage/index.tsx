@@ -5,10 +5,11 @@ import Image from "next/image";
 type PostCoverImageProps = {
     href: string,
     src: string,
-    alt: string
+    alt: string,
+    priority?: boolean
 }
 
-export function PostCoverImage({ href, src, alt }: PostCoverImageProps) {
+export function PostCoverImage({ href, src, alt, priority = false }: PostCoverImageProps) {
     return (
         <Link
             className={clsx(
@@ -27,7 +28,7 @@ export function PostCoverImage({ href, src, alt }: PostCoverImageProps) {
                 width={1200}
                 height={720}
                 alt={alt}
-                priority />
+                priority={priority} />
         </Link>
     )
 }
