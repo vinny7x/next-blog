@@ -1,10 +1,10 @@
 import clsx from "clsx";
 import { PostCoverImage } from "../PostCoverImage";
 import { PostSummary } from "../PostSummary";
-import { findAllPublicPosts } from "@/lib/post/queries";
+import { findAllPublicPostsCached } from "@/lib/post/queries";
 
 export async function FeaturedPost() {
-    const posts = await findAllPublicPosts();
+    const posts = await findAllPublicPostsCached();
     const featuredPost = posts[0];
 
     const postLink = `/post/${featuredPost.slug}`
