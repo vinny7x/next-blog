@@ -10,8 +10,8 @@ type PostHeadingProps = {
 
 export function PostHeading({ children, url, as: Tag = 'h2' }: PostHeadingProps) {
     const headingClassesMap = {
-        h1: clsx('text-2xl/tight font-extrabold', 'sm:text-4xl', 'mb-4'),
-        h2: clsx('text-2xl/tight font-bold', 'mb-4')
+        h1: clsx('text-2xl/tight font-extrabold', 'sm:text-4xl'),
+        h2: clsx('text-2xl/tight font-bold')
     }
     return (
         <Tag className={headingClassesMap[Tag]}>
