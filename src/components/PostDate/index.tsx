@@ -8,7 +8,7 @@ type postDateProps = {
 export function PostDate({ dateTime }: postDateProps) {
     return (
         <time className={clsx(
-            'text-slate-600 text-sm/tight block'
+            'text-slate-600 text-sm/tight'
         )}
             dateTime={dateTime}>
             {`${formatDateTime(dateTime)} (${formatRelativeDate(dateTime)})`}
