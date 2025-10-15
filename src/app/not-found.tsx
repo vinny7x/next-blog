@@ -1,9 +1,5 @@
 import clsx from "clsx";
-import { Metadata } from "next";
-export const metadata:Metadata = {
-    title: "Página não encontrada",
-    description: "Esta página não foi encontrada."
-}
+
 export default function NotFoundPage() {
     return (
         <div
