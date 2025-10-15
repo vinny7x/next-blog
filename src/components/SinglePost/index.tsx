@@ -12,7 +12,7 @@ type SinglePostProps = {
 export async function SinglePost({ slug }: SinglePostProps) {
     const post = await findPostBySlugCached(slug).catch(() => undefined)
 
-    if (!post) notFound();
+    if (!post) return notFound();
     return (
         <article className="mb-16">
             <header className="group flex flex-col gap-4 mb-2">
