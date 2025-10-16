@@ -7,23 +7,13 @@ export const findAllPublicPostsCached = cache(
         return await postRepository.findAllPublic();
     }
 )
-
 export const findPostBySlugCached = cache(
-  async (slug: string) => {
-    try {
-      const post = await postRepository.findBySlug(slug);
-      if (!post) {
-        console.error(`[findPostBySlugCached] Post não encontrado: "${slug}"`);
-        notFound();
-      }
-      return post;
-    } catch (err) {
-      console.error(`[findPostBySlugCached] Erro ao buscar post "${slug}":`, err);
-      notFound();
+    async (slug: string) => {
+        const post = await postRepository.findBySlug(slug).catch(() => undefined)
+        if (!post) notFound()
+        return post
     }
-  }
-);
-
+)
 export const findPostByIdCached = cache(
     async (id: string) => {
         return await postRepository.findById(id);
