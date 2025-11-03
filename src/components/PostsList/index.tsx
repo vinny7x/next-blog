@@ -4,7 +4,8 @@ import { PostSummary } from "../PostSummary";
 import { findAllPublicPostsCached } from "@/lib/post/queries/public";
 
 export async function PostsList() {
-    const posts = await findAllPublicPostsCached()
+    const posts = await findAllPublicPostsCached();
+    if (posts.length <= 1) return null
 
     return (
         <section className={clsx(
@@ -14,7 +15,7 @@ export async function PostsList() {
             'mb-16'
         )}>
             {posts.slice(1).map(post => {
-                const postLink = `/post/${post.slug}`
+                const postLink = `/post/${post.slug}`;
                 return (
                     <div key={post.id} className="flex flex-col gap-4 group">
                         <PostCoverImage
@@ -28,8 +29,8 @@ export async function PostsList() {
                             title={post.title}
                             postLink={postLink}
                             postHeading="h2" />
-                    </div>)
+                    </div>);
             })}
         </section>
-    )
+    );
 }

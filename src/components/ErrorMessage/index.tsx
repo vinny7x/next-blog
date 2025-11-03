@@ -2,14 +2,15 @@
 
 import clsx from "clsx";
 type ErrorMessageProps = {
-    pageTitle: string,
+    pageTitle?: string,
     contenteTitle: string,
-    content: React.ReactNode
-}
-export default function ErrorMessage({ pageTitle, contenteTitle, content }: ErrorMessageProps) {
+    content: React.ReactNode;
+};
+export default function ErrorMessage({ pageTitle = '', contenteTitle, content }: ErrorMessageProps) {
     return (
         <>
-            <title>{pageTitle}</title>
+        {pageTitle && <title>{pageTitle}</title>}
+
             <div
                 className={clsx(
                     "bg-slate-900 text-slate-100",
