@@ -14,7 +14,7 @@ type DialogProps = {
 export function Dialog({ isVisible = false, disabled = false, title, content, onCancel, onConfirm }: DialogProps) {
     if (!isVisible) return null;
     function handleCancel() {
-        if (!disabled) return;
+        if (disabled) return;
         onCancel();
     }
     return <div className={clsx(
