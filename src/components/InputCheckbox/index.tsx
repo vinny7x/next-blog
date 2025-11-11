@@ -1,0 +1,24 @@
+import clsx from "clsx";
+import { useId } from "react";
+
+type InputTextProps = {
+    labelText?: string;
+    type?: 'checkbox';
+} & React.ComponentProps<'input'>;
+
+export function InputCheckbox({ labelText = '', type = 'checkbox', ...props }: InputTextProps) {
+    const id = useId();
+    return (<div className="flex gap-3 items-center">
+        <input
+            {...props}
+            className={clsx(
+                'w-4 h-4',
+                'outline-none',
+                'focus:ring-2 focus:ring-blue-500',
+                props.className
+            )}
+            id={id}
+            type={type} />
+            {labelText && <label className="text-base" htmlFor={id} >{labelText}</label>}
+    </div>);
+}
