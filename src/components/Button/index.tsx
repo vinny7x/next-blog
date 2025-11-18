@@ -37,6 +37,5 @@ export function Button({ variant = 'default', size = 'md', ...props }: ButtonPro
         'disabled:bg-slate-200 disabled:text-slate-400 disabled:cursor-not-allowed',
         props.className,
     );
-    console.log(buttonVariants[variant]);
-    return <button {...props} className={buttonClasses}  />;
+    return <button {...props} className={buttonClasses} />;
 }
