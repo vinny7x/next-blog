@@ -1,11 +1,15 @@
-import {ZodError} from 'zod';
+type TreeifiedZodError = {
+  errors: string[];
+  properties?: Record<string, { errors: string[] }>;
+};
 
-export function getZodErrorMessages<T>(error: ZodError<T>): string[] {
-  return Object.values(error)
-    .map(field => {
-      if (Array.isArray(field)) return field;
-      return field?._errors || [];
-    })
-    .flat()
-    .filter(Boolean);
+export function getZodErrorMessages(
+  error: TreeifiedZodError
+): string[] {
+  return [
+    ...error.errors,
+    ...Object.values(error.properties ?? {}).flatMap(
+      prop => prop.errors
+    ),
+  ];
 }
