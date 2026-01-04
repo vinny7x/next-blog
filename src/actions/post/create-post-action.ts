@@ -7,10 +7,9 @@ import { getZodErrorMessages } from "@/utils/get-zod-error-messages";
 import { z } from "zod";
 import { v4 as uuidV4 } from "uuid";
 import { makeSlugFromText } from "@/utils/make-slug-from-text";
-import { drizzleDb } from "@/db/drizzle";
-import { postsTable } from "@/db/drizzle/schemas";
 import { revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
+import { postRepository } from "@/repositories/post";
 type CreatePostActionState = {
     formState: PublicPost;
     errors: string[];
@@ -49,9 +48,21 @@ export async function createPostAction(
         id: uuidV4(),
         slug: makeSlugFromText(validPostData.title)
     };
-    //TODO: mover este metodo para o repositorio
-    await drizzleDb.insert(postsTable).values(newPost);
+    try {
+        await postRepository.create(newPost);
+    } catch (e: unknown) {
+        if (e instanceof Error) {
+            return {
+                formState: newPost,
+                errors: [e.message]
+            };
 
+        }
+        return {
+            formState: newPost,
+            errors: ['Erro desconhecido']
+        };
+    }
     revalidateTag('posts');
     redirect(`/admin/post/${newPost.id}`);
 }
