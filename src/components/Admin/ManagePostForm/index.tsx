@@ -9,26 +9,47 @@ import { makePartialPublicPost, PublicPost } from "@/dto/post/dto";
 import { createPostAction } from "@/actions/post/create-post-action";
 import { Button } from "@/components/Button";
 import { toast } from "react-toastify";
+import { UpdatePostAction } from "@/actions/post/update-post-action";
 
-type ManagePostFormProps = {
-    publicPost?: PublicPost;
+type ManagePostFormUpdateProps = {
+    mode: 'update';
+    publicPost: PublicPost;
 };
+type ManagePostFormCreateProps = {
+    mode: 'create';
+};
+type ManagePostFormProps = ManagePostFormUpdateProps | ManagePostFormCreateProps;
 
-export function ManagePostForm({ publicPost }: ManagePostFormProps) {
+export function ManagePostForm(props: ManagePostFormProps) {
+    const { mode } = props;
+    let publicPost;
+    if (mode === 'update') {
+        publicPost = props.publicPost;
+    }
+    const actionsMap = {
+        create: createPostAction,
+        update: UpdatePostAction
+    };
     const initialState = {
         formState: makePartialPublicPost(publicPost),
         errors: []
     };
-    const [state, action] = useActionState(
-        createPostAction,
+    const [state, action, isPending] = useActionState(
+        actionsMap[mode],
         initialState
     );
     useEffect(() => {
-        if(state.errors.length > 0) {
-            state.errors.forEach(error => toast.error(error))
+        if (state.errors.length > 0) {
+            toast.dismiss();
+            state.errors.forEach(error => toast.error(error));
         }
-    }, [state.errors])
-    const {formState} = state
+    }, [state.errors]);
+    useEffect(() => {
+        if (state.success) {
+            toast.success('Post atualizado com sucesso');
+        }
+    }, [state.success]);
+    const { formState } = state;
     const [contentValue, setContenteValue] = useState(publicPost?.content || '');
 
     return <form action={action} className='mb-16'>
@@ -39,6 +60,7 @@ export function ManagePostForm({ publicPost }: ManagePostFormProps) {
                 placeholder='ID gerado automaticamente'
                 type='text'
                 defaultValue={formState.id}
+                disabled={isPending}
                 readOnly
             />
             <InputText
@@ -47,6 +69,7 @@ export function ManagePostForm({ publicPost }: ManagePostFormProps) {
                 placeholder='Slug gerada automaticamente'
                 type='text'
                 defaultValue={formState.slug}
+                disabled={isPending}
                 readOnly
             />
             <InputText
@@ -55,6 +78,7 @@ export function ManagePostForm({ publicPost }: ManagePostFormProps) {
                 placeholder='Digite o nome do autor'
                 type='text'
                 defaultValue={formState.author}
+                disabled={isPending}
             />
             <InputText
                 labelText='Título'
@@ -62,6 +86,7 @@ export function ManagePostForm({ publicPost }: ManagePostFormProps) {
                 placeholder='Digite o título'
                 type='text'
                 defaultValue={formState.title}
+                disabled={isPending}
             />
             <InputText
                 labelText='Excerto'
@@ -69,12 +94,16 @@ export function ManagePostForm({ publicPost }: ManagePostFormProps) {
                 placeholder='Digite o resumo'
                 type='text'
                 defaultValue={formState.excerpt}
+                disabled={isPending}
             />
             <MarkdownEditor
                 labelText="Conteúdo"
                 value={contentValue}
                 setValue={setContenteValue}
-                textAreaName="content" />
+                textAreaName="content"
+                disabled={isPending}
+            />
+
             <ImageUploader />
             <InputText
                 labelText='URL da imagem de capa'
@@ -82,15 +111,22 @@ export function ManagePostForm({ publicPost }: ManagePostFormProps) {
                 placeholder='Insira a url da imagem de capa'
                 type='text'
                 defaultValue={formState.coverImageUrl}
+                disabled={isPending}
             />
             <InputCheckbox
                 labelText='Publicar?'
                 name="published"
                 type='checkbox'
                 defaultChecked={formState.published}
+                disabled={isPending}
             />
             <div className='mt-4'>
-                <Button type='submit'>Enviar</Button>
+                <Button
+                    type='submit'
+                    disabled={isPending}
+                >
+                    Enviar
+                </Button>
             </div>
         </div>
     </form>;
