@@ -104,7 +104,7 @@ export function ManagePostForm(props: ManagePostFormProps) {
                 disabled={isPending}
             />
 
-            <ImageUploader />
+            <ImageUploader disabled={isPending} />
             <InputText
                 labelText='URL da imagem de capa'
                 name="coverImageUrl"

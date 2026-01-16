@@ -13,14 +13,13 @@ import { postRepository } from "@/repositories/post";
 type CreatePostActionState = {
     formState: PublicPost;
     errors: string[];
-    success?: true;
+    success?: string;
 };
 
 export async function createPostAction(
     prevState: CreatePostActionState,
     formData: FormData
 ): Promise<CreatePostActionState> {
-
     if (!(formData instanceof FormData)) {
         return {
             formState: prevState.formState,

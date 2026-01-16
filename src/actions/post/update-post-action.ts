@@ -6,12 +6,12 @@ import { PostModel } from "@/models/post/post-model";
 import { getZodErrorMessages } from "@/utils/get-zod-error-messages";
 import { z } from "zod";
 import { revalidateTag } from "next/cache";
-import { redirect } from "next/navigation";
 import { postRepository } from "@/repositories/post";
+import { makeRandomString } from "@/utils/make-random-string";
 type UpdatePostActionState = {
     formState: PublicPost;
     errors: string[];
-    success?: true;
+    success?: string;
 };
 
 export async function UpdatePostAction(
@@ -53,7 +53,7 @@ export async function UpdatePostAction(
     const newPost = {
         ...validPostData,
     };
-    let post:PostModel;
+    let post: PostModel;
     try {
         post = await postRepository.update(id, newPost);
     } catch (e: unknown) {
@@ -70,10 +70,10 @@ export async function UpdatePostAction(
         };
     }
     revalidateTag('posts');
-    redirect(`/admin/post/${post.slug}`);
+    revalidateTag(`post-${post.slug}`);
     return {
         formState: makePublicPostFromDb(post),
         errors: [],
-        success: true
-    }
+        success: makeRandomString()
+    };
 }
