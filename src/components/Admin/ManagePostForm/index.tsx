@@ -10,6 +10,7 @@ import { createPostAction } from "@/actions/post/create-post-action";
 import { Button } from "@/components/Button";
 import { toast } from "react-toastify";
 import { UpdatePostAction } from "@/actions/post/update-post-action";
+import { useRouter, useSearchParams } from "next/navigation";
 
 type ManagePostFormUpdateProps = {
     mode: 'update';
@@ -22,6 +23,9 @@ type ManagePostFormProps = ManagePostFormUpdateProps | ManagePostFormCreateProps
 
 export function ManagePostForm(props: ManagePostFormProps) {
     const { mode } = props;
+    const searchParams = useSearchParams()
+    const created = searchParams.get('created')
+    const router = useRouter()
     let publicPost;
     if (mode === 'update') {
         publicPost = props.publicPost;
@@ -46,9 +50,17 @@ export function ManagePostForm(props: ManagePostFormProps) {
     }, [state.errors]);
     useEffect(() => {
         if (state.success) {
-            toast.success('Post atualizado com sucesso');
+            toast.success('Post atualizado com sucesso!');
         }
     }, [state.success]);
+    useEffect(() => {
+        if (created === '1') {
+            toast.success('Post criado com sucesso!');
+            const url = new URL(window.location.href)
+            url.searchParams.delete('created')
+            router.replace(url.toString())
+        }
+    }, [created, router]);
     const { formState } = state;
     const [contentValue, setContenteValue] = useState(publicPost?.content || '');
 
