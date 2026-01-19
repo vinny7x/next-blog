@@ -1,6 +1,5 @@
 'use server';
 
-import { IMAGE_SERVER_URL, IMAGE_UPLOAD_DIRECTORY, IMAGE_UPLOAD_MAX_SIZE } from "@/lib/constants";
 import { mkdir, writeFile } from "fs/promises";
 import { extname, resolve } from "path";
 
@@ -19,7 +18,9 @@ export async function uploadImageAction(formData: FormData): Promise<UploadImage
     if (!(file instanceof File)) {
         return makeResult({ error: 'Arquivo inválido' });
     }
-    if (file.size > IMAGE_UPLOAD_MAX_SIZE) {
+    const uploadMaxSize = Number(process.env.NEXT_PUBLIC_IMAGE_UPLOAD_MAX_SIZE) || 921600;
+
+    if (file.size > uploadMaxSize) {
         return makeResult({ error: 'Arquivo muito grande' });
     }
     if (!file.type.startsWith('image/')) {
@@ -29,17 +30,19 @@ export async function uploadImageAction(formData: FormData): Promise<UploadImage
     const imageExtension = extname(file.name);
     const uniqueImageName = `${Date.now()}${imageExtension}`;
 
-    const uploadsFullPath = resolve(process.cwd(), 'public', IMAGE_UPLOAD_DIRECTORY);
+    const uploadDir = process.env.IMAGE_UPLOAD_DIRECTORY || 'uploads';
+    const imgServerUrl = process.env.IMAGE_SERVER_URL || 'http://localhost:3000';
+
+    const uploadsFullPath = resolve(process.cwd(), 'public', uploadDir);
     await mkdir(uploadsFullPath, { recursive: true });
 
-    const fileArrayBuffer =  await file.arrayBuffer()
-    const buffer = Buffer.from(fileArrayBuffer)
+    const fileArrayBuffer = await file.arrayBuffer();
+    const buffer = Buffer.from(fileArrayBuffer);
 
+    const fileFullPath = resolve(uploadsFullPath, uniqueImageName);
+    await writeFile(fileFullPath, buffer);
 
-    const fileFullPath = resolve(uploadsFullPath, uniqueImageName)
-    await writeFile(fileFullPath, buffer)
-
-    const url = `${IMAGE_SERVER_URL}/${IMAGE_UPLOAD_DIRECTORY}/${uniqueImageName}`
+    const url = `${imgServerUrl}/${uploadDir}/${uniqueImageName}`;
     return makeResult({ url });
 
 }
