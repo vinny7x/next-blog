@@ -8,6 +8,7 @@ import { z } from "zod";
 import { revalidateTag } from "next/cache";
 import { postRepository } from "@/repositories/post";
 import { makeRandomString } from "@/utils/make-random-string";
+import { verifyLoginSession } from "@/lib/login/manage-login";
 type UpdatePostActionState = {
     formState: PublicPost;
     errors: string[];
@@ -18,6 +19,7 @@ export async function UpdatePostAction(
     prevState: UpdatePostActionState,
     formData: FormData
 ): Promise<UpdatePostActionState> {
+    const isAuthenticated = await verifyLoginSession();
 
     if (!(formData instanceof FormData)) {
         return {
@@ -37,7 +39,14 @@ export async function UpdatePostAction(
     const formDatToObj = Object.fromEntries(formData.entries());
     const zodParsedObj = PostUpdateSchema.safeParse(formDatToObj);
 
-
+    if (!isAuthenticated) {
+        return {
+            formState: makePartialPublicPost(formDatToObj),
+            errors: [
+                'Faça login em outra aba antes de salvar.'
+            ]
+        };
+    }
 
     if (!zodParsedObj.success) {
         const treeError = z.treeifyError(zodParsedObj.error);
