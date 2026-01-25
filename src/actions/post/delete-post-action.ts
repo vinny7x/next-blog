@@ -26,8 +26,8 @@ export async function deletePostAction(id: string) {
         };
     }
 
-    revalidateTag('posts');
-    revalidateTag(`post-${post.slug}`);
+    revalidateTag('posts', 'max');
+    revalidateTag(`post-${post.slug}`, 'max');
 
     return {
         error: '',

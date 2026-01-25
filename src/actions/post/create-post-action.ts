@@ -10,6 +10,7 @@ import { makeSlugFromText } from "@/utils/make-slug-from-text";
 import { revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import { postRepository } from "@/repositories/post";
+import { verifyLoginSession } from "@/lib/login/manage-login";
 type CreatePostActionState = {
     formState: PublicPost;
     errors: string[];
@@ -20,6 +21,8 @@ export async function createPostAction(
     prevState: CreatePostActionState,
     formData: FormData
 ): Promise<CreatePostActionState> {
+    const isAuthenticated = await verifyLoginSession();
+
     if (!(formData instanceof FormData)) {
         return {
             formState: prevState.formState,
@@ -29,6 +32,15 @@ export async function createPostAction(
 
     const formDatToObj = Object.fromEntries(formData.entries());
     const zodParsedObj = PostCreateSchema.safeParse(formDatToObj);
+
+    if (!isAuthenticated) {
+        return {
+            formState: makePartialPublicPost(formDatToObj),
+            errors: [
+                'Faça login em outra aba antes de salvar.'
+            ]
+        };
+    }
 
     if (!zodParsedObj.success) {
         const treeError = z.treeifyError(zodParsedObj.error);
@@ -63,6 +75,6 @@ export async function createPostAction(
             errors: ['Erro desconhecido']
         };
     }
-    revalidateTag('posts');
+    revalidateTag('posts', 'max');
     redirect(`/admin/post/${newPost.id}?created=1`);
 }
