@@ -10,14 +10,14 @@ type LoginActionState = {
 };
 
 export async function loginAction(state: LoginActionState, formData: FormData) {
-const allowLogin = Boolean(Number(process.env.ALLOW_LOGIN))
+    const allowLogin = Boolean(Number(process.env.ALLOW_LOGIN));
 
-if(!allowLogin) {
-    return {
-        username: '',
-        error: 'Login not allowed'
-    };
-}
+    if (!allowLogin) {
+        return {
+            username: '',
+            error: 'Login not allowed'
+        };
+    }
 
     await asyncDelay(5000);
 
@@ -47,5 +47,5 @@ if(!allowLogin) {
         };
     }
     await createLoginSession(username);
-    redirect('/admin/post')
+    redirect('/admin/post');
 }
