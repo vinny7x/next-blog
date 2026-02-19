@@ -1,5 +1,9 @@
 # Servidor
 
+## Requisitos para deploy
+- Servidor Linux com IP válido que não mude e com acesso SSH
+- Um domínio que você possa configurar registros de DNS
+
 ## Comandos para iniciar o site do zero:
 ```sh
 # Instalar todos os pacotes
