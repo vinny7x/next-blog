@@ -16,6 +16,13 @@ const nextConfig: NextConfig = {
                 port: '3000',
                 pathname: '/**',
                 search: ''
+            },
+            {
+                protocol: 'https',
+                hostname: 'blog.vinny7x.dedyn.io',
+                port: '',
+                pathname: '/**',
+                search: ''
             }
         ]
     }
